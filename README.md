@@ -25,3 +25,15 @@ Additional make or compile may involves but it is sure that basic driver setup i
 ### Old Method
 ![old_method](image/old.PNG)
 
+## Resource RIFFA PCIe x4 Gen 2.0 
+| LUT    | 6343  | 63400  | 10.004732 |
+|--------|-------|--------|-----------|
+| LUTRAM | 202   | 19000  | 1.0631579 |
+| FF     | 11759 | 126800 | 9.27366   |
+| BRAM   | 43    | 135    | 31.851852 |
+| IO     | 1     | 285    | 0.3508772 |
+| GT     | 4     | 4      | 100.0     |
+| BUFG   | 6     | 32     | 18.75     |
+| MMCM   | 1     | 6      | 16.666668 |
+| PCIe   | 1     | 1      | 100.0     |
+
