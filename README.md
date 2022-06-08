@@ -19,7 +19,9 @@ Additional make or compile may involves but it is sure that basic driver setup i
 
 ## Convert previous HDL into a IP to and make life much easier on development.
 
+### New Method
+![new](image/Riffa.PNG)
+
 ### Old Method
 ![old](image/old.PNG)
 
-### New Method
