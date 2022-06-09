@@ -17,19 +17,31 @@ module riffa_wrapper#(
 	parameter C_FPGA_ID = "Artix 7") 
 (
 	// Interface: Xilinx RX 
+	(* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 M_AXIS_RX TDATA" *)
 	input [C_PCI_DATA_WIDTH-1:0]                 M_AXIS_RX_TDATA,
+	(* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 M_AXIS_RX TKEEP" *)
 	input [(C_PCI_DATA_WIDTH/8)-1:0]             M_AXIS_RX_TKEEP,
+	(* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 M_AXIS_RX TLAST" *)
 	input                                        M_AXIS_RX_TLAST,
+	(* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 M_AXIS_RX TVALID" *)
 	input                                        M_AXIS_RX_TVALID,
+	(* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 M_AXIS_RX TREADY" *)
 	output                                       M_AXIS_RX_TREADY,
+	(* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 M_AXIS_RX TUSER" *)
 	input [`SIG_XIL_RX_TUSER_W-1:0]              M_AXIS_RX_TUSER,
 
 	// Interface: Xilinx TX
+	(* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 S_AXIS_TX TDATA" *)
 	output [C_PCI_DATA_WIDTH-1:0]                S_AXIS_TX_TDATA,
+	(* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 S_AXIS_TX TKEEP" *)
 	output [(C_PCI_DATA_WIDTH/8)-1:0]            S_AXIS_TX_TKEEP,
+	(* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 S_AXIS_TX TLAST" *)
 	output                                       S_AXIS_TX_TLAST,
+	(* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 S_AXIS_TX TVALID" *)
 	output                                       S_AXIS_TX_TVALID,
+	(* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 S_AXIS_TX TREADY" *)
 	input                                        S_AXIS_TX_TREADY,
+	(* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 S_AXIS_TX TUSER" *)
 	output [`SIG_XIL_TX_TUSER_W-1:0]             S_AXIS_TX_TUSER,
 	
 	// Interface: PCIE Status
@@ -85,14 +97,23 @@ module riffa_wrapper#(
 	output                                       RST_OUT,
 	
 	// RIFFA Interface Signals
+	(* X_INTERFACE_INFO = "briansune:user:riffa_bus_rtl:1.0 chnl_rx0 CHNL_CLK" *)
 	input [C_NUM_CHNL-1:0]                       CHNL_RX_CLK, // Channel read clock
+	(* X_INTERFACE_INFO = "briansune:user:riffa_bus_rtl:1.0 chnl_rx0 CHNL_EN" *)
 	output [C_NUM_CHNL-1:0]                      CHNL_RX, // Channel read receive signal
+	(* X_INTERFACE_INFO = "briansune:user:riffa_bus_rtl:1.0 chnl_rx0 CHNL_ACK" *)
 	input [C_NUM_CHNL-1:0]                       CHNL_RX_ACK, // Channel read received signal
+	(* X_INTERFACE_INFO = "briansune:user:riffa_bus_rtl:1.0 chnl_rx0 CHNL_LAST" *)
 	output [C_NUM_CHNL-1:0]                      CHNL_RX_LAST, // Channel last read
+	(* X_INTERFACE_INFO = "briansune:user:riffa_bus_rtl:1.0 chnl_rx0 CHNL_LEN" *)
 	output [(C_NUM_CHNL*`SIG_CHNL_LENGTH_W)-1:0] CHNL_RX_LEN, // Channel read length
+	(* X_INTERFACE_INFO = "briansune:user:riffa_bus_rtl:1.0 chnl_rx0 CHNL_OFF" *)
 	output [(C_NUM_CHNL*`SIG_CHNL_OFFSET_W)-1:0] CHNL_RX_OFF, // Channel read offset
+	(* X_INTERFACE_INFO = "briansune:user:riffa_bus_rtl:1.0 chnl_rx0 CHNL_DATA" *)
 	output [(C_NUM_CHNL*C_PCI_DATA_WIDTH)-1:0]   CHNL_RX_DATA, // Channel read data
+	(* X_INTERFACE_INFO = "briansune:user:riffa_bus_rtl:1.0 chnl_rx0 CHNL_VALID" *)
 	output [C_NUM_CHNL-1:0]                      CHNL_RX_DATA_VALID, // Channel read data valid
+	(* X_INTERFACE_INFO = "briansune:user:riffa_bus_rtl:1.0 chnl_rx0 CHNL_DATA_EN" *)
 	input [C_NUM_CHNL-1:0]                       CHNL_RX_DATA_REN, // Channel read data has been recieved
 
 	input [C_NUM_CHNL-1:0]                       CHNL_TX_CLK, // Channel write clock

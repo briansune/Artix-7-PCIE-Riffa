@@ -74,10 +74,13 @@ module chnl_tester #(
 	input CHNL_TX_DATA_REN
 );
 
-reg [C_PCI_DATA_WIDTH-1:0] rData={C_PCI_DATA_WIDTH{1'b0}};
+// reg [C_PCI_DATA_WIDTH-1:0] rData={C_PCI_DATA_WIDTH{1'b0}};
 reg [31:0] rLen=0;
 reg [31:0] rCount=0;
 reg [1:0] rState=0;
+
+reg		[7 : 0]					bram_addr;
+reg		[C_PCI_DATA_WIDTH-1:0]	bram	[255 : 0];
 
 assign CHNL_RX_CLK = CLK;
 assign CHNL_RX_ACK = (rState == 2'd1);
@@ -88,15 +91,17 @@ assign CHNL_TX = (rState == 2'd3);
 assign CHNL_TX_LAST = 1'd1;
 assign CHNL_TX_LEN = rLen; // in words
 assign CHNL_TX_OFF = 0;
-assign CHNL_TX_DATA = rData;
+assign CHNL_TX_DATA = bram[bram_addr];
 assign CHNL_TX_DATA_VALID = (rState == 2'd3);
+
 
 always @(posedge CLK or posedge RST) begin
 	if (RST) begin
 		rLen <= #1 0;
 		rCount <= #1 0;
 		rState <= #1 0;
-		rData <= #1 0;
+		bram_addr <= #1 0;
+		// rData <= #1 0;
 	end
 	else begin
 		case (rState)
@@ -105,14 +110,16 @@ always @(posedge CLK or posedge RST) begin
 			if (CHNL_RX) begin
 				rLen <= #1 CHNL_RX_LEN;
 				rCount <= #1 0;
+				bram_addr <= #1 0;
 				rState <= #1 2'd1;
 			end
 		end
 		
 		2'd1: begin // Wait for last data in RX, save value
 			if (CHNL_RX_DATA_VALID) begin
-				rData <= #1 CHNL_RX_DATA;
+				bram[bram_addr] <= #1 CHNL_RX_DATA;
 				rCount <= #1 rCount + (C_PCI_DATA_WIDTH/32);
+				bram_addr <= bram_addr + 1'b1;
 			end
 			if (rCount >= rLen)
 				rState <= #1 2'd2;
@@ -121,12 +128,15 @@ always @(posedge CLK or posedge RST) begin
 		2'd2: begin // Prepare for TX
 			rCount <= #1 (C_PCI_DATA_WIDTH/32);
 			rState <= #1 2'd3;
+			bram_addr <= #1 0;
 		end
 
 		2'd3: begin // Start TX with save length and data value
 			if (CHNL_TX_DATA_REN & CHNL_TX_DATA_VALID) begin
-				rData <= #1 {rCount + 4, rCount + 3, rCount + 2, rCount + 1};
+				// rData <= #1 {rCount + 4, rCount + 3, rCount + 2, rCount + 1};
+				bram[bram_addr] <= #1 CHNL_RX_DATA;
 				rCount <= #1 rCount + (C_PCI_DATA_WIDTH/32);
+				bram_addr <= bram_addr + 1'b1;
 				if (rCount >= rLen)
 					rState <= #1 2'd0;
 			end
